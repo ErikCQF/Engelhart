@@ -2,7 +2,7 @@
 
 ## Assumptions
 This project has been designed to simulate a production environment where the `AssetPortfolio` class already exists and is actively used across multiple projects.
-The  `Program.cs` in the former main application that is used for test, can been seen as an client that has been already used. All Refactory in the AssetPortfolio MUST be compatible with.
+The  `Program.cs` in the former main application that is used for test, can been seen as a client that has been already used. All Refactory in the AssetPortfolio MUST be compatible with.
 
 ### Key Design Considerations
 - All modifications have been implemented in a way that ensures backward compatibility, meaning existing applications that consume this version of PMS will not be affected.
