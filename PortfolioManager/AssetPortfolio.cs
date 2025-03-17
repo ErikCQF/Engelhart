@@ -30,7 +30,8 @@ namespace PortfolioManager
             {
                 _portfolio.Add(s);
             }
-            throw new InvalidOperationException("This PMS version Only Accept stocks in the porfolio price");
+
+            throw new InvalidOperationException("This PMS version Only Accept stocks in the porfolio cuurency");
         }
 
         public virtual double Value()
@@ -43,6 +44,10 @@ namespace PortfolioManager
             return v;
         }
 
+        /// <summary>
+        /// Clone only Services structure.
+        /// </summary>
+        /// <returns></returns>
         public virtual AssetPortfolio Clone()
         {
             return _consolidatorService == null ? new AssetPortfolio() : new AssetPortfolio(_consolidatorService);
@@ -51,7 +56,7 @@ namespace PortfolioManager
         {
             if (_consolidatorService is null)
             {
-                throw new Exception("Missing Consolidators");
+                throw new Exception($"Missing {nameof(ConsolidatorService)}");
             }
 
             AssetPortfolio consolidated = this.Clone();

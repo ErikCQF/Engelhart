@@ -45,6 +45,11 @@ namespace PortfolioManager
             }
             return v;
         }
+
+        /// <summary>
+        /// Clone only Services structure.
+        /// </summary>
+        /// <returns></returns>
         public override AssetPortfolio Clone()
         {
             if (_consolidatorService is null) throw new ArgumentNullException("consolidators service not found");
