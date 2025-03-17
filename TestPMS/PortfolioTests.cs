@@ -19,6 +19,24 @@ namespace PortfolioManager.Tests
             Assert.True(AreEqual(portfolio.Value(), 1800));
         }
         /// <summary>
+        /// Compatibility test with AssetPortfolio
+        /// See AssetPortfolio_Test()
+        /// </summary>
+        [Fact]
+        public void TestMultAssetPortfolio_Same_Currency()
+        {
+            //Arrange
+            var fxRates = Create_ExchangeRates();
+            var consolidator = Create_ConsolidatorService();
+            var portfolio = new MultAssetPortfolio("USD", fxRates, consolidator);
+
+            portfolio.Add(new Stock("ABC", 200, 4, "USD"));
+            portfolio.Add(new Stock("DDW", 100, 10, "USD"));
+
+            //Assert and Act
+            Assert.True(AreEqual(portfolio.Value(), 1800));
+        }
+        /// <summary>
         /// From Spec: Modify the design to accommodate multiple asset types:
         ///  a. foreign currency assets (i.e. 1000 EUR at current exchange rate)
         ///  b. foreign currency denominated stocks (i.e. stock denominated in GBP)
@@ -135,24 +153,7 @@ namespace PortfolioManager.Tests
             Assert.True(AreEqual(portValueCosolidatedChangeCurrency, portFolioTotal * fromToRate));
 
         }
-        /// <summary>
-        /// Compatibility test with AssetPortfolio
-        /// See AssetPortfolio_Test()
-        /// </summary>
-        [Fact]
-        public void TestMultAssetPortfolio_Same_Currency()
-        {
-            //Arrange
-            var fxRates = Create_ExchangeRates();
-            var consolidator = Create_ConsolidatorService();
-            var portfolio = new MultAssetPortfolio("USD", fxRates, consolidator);
-
-            portfolio.Add(new Stock("ABC", 200, 4, "USD"));
-            portfolio.Add(new Stock("DDW", 100, 10, "USD"));
-
-            //Assert and Act
-            Assert.True(AreEqual(portfolio.Value(), 1800));
-        }
+  
 
         /// <summary>
         /// From Spect: Complete the function to consolidate the portfolio by unique security and average cost. 
