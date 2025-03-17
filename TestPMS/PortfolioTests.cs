@@ -6,8 +6,11 @@ namespace PortfolioManager.Tests
 {
     public class PortfolioTests
     {
+        /// <summary>
+        /// Copied from Main
+        /// </summary>
         [Fact]
-        public void Test1()
+        public void AssetPortfolio_Test()
         {
             var portfolio = new AssetPortfolio();
             portfolio.Add(new Stock("ABC", 200, 4));
@@ -15,7 +18,12 @@ namespace PortfolioManager.Tests
 
             Assert.True(AreEqual(portfolio.Value(), 1800));
         }
-
+        /// <summary>
+        /// From Spec: Modify the design to accommodate multiple asset types:
+        ///  a. foreign currency assets (i.e. 1000 EUR at current exchange rate)
+        ///  b. foreign currency denominated stocks (i.e. stock denominated in GBP)
+        /// </summary>
+        /// <param name="CCY"></param>
         [Theory]
         [MemberData(nameof(GetCurrencyPorfolioToTest))]
         public void Test_Portfolio_Mult_Currency_Mult_Asset_Portfolio(string CCY)
@@ -63,7 +71,12 @@ namespace PortfolioManager.Tests
             Assert.True(AreEqual(portValueCosolidated, portFolioTotal));
 
         }
-
+        /// <summary>
+        /// From Spec: Adjust the design to allow valuing the portfolio in any currency (i.e. given current exchange rates, 
+        /// be able to find the value of the entire portfolio, for example, in USD, GBP, EUR, etc.)
+        /// </summary>
+        /// <param name="CCY_FROM"></param>
+        /// <param name="CCY_TO"></param>
         [Theory]
         [MemberData(nameof(GetChangeCurrencyPorfolioToTest))]
         public void Test_Portfolio_Mult_Currency_Mult_Asset_Portfolio_Change_Curreny_Porfolio(string CCY_FROM, string CCY_TO)
@@ -122,7 +135,10 @@ namespace PortfolioManager.Tests
             Assert.True(AreEqual(portValueCosolidatedChangeCurrency, portFolioTotal * fromToRate));
 
         }
-
+        /// <summary>
+        /// Compatibility test with AssetPortfolio
+        /// See AssetPortfolio_Test()
+        /// </summary>
         [Fact]
         public void TestMultAssetPortfolio_Same_Currency()
         {
@@ -138,7 +154,11 @@ namespace PortfolioManager.Tests
             Assert.True(AreEqual(portfolio.Value(), 1800));
         }
 
-
+        /// <summary>
+        /// From Spect: Complete the function to consolidate the portfolio by unique security and average cost. 
+        /// For example if the portfolio consists of 100 shares of ABC at $2 and 200 shares of ABC at $3.50, 
+        /// the consolidated portfolio will have 300 shares of ABC at $3.
+        /// </summary>
         [Fact]
         public void TestConsolidator_Service_For_Stocks()
         {
@@ -176,6 +196,11 @@ namespace PortfolioManager.Tests
             Assert.True(AreEqual(dowAsset.Price, 10));
         }
 
+        /// <summary>        
+        /// From Spec: Modify the design to accommodate multiple asset types:
+        ///  a. foreign currency assets (i.e. 1000 EUR at current exchange rate) 
+        /// <param name="CCY"></param>
+        /// </summary>
         [Fact]
         public void Test_Consolidator_Service_For_Currency()
         {
