@@ -1,36 +1,21 @@
 using PortfolioManager.Assets;
 using PortfolioManager.Services.Consolidators;
-using PortfolioManager.Services.FxRates;
-using System.Net.Http.Headers;
 
 namespace PortfolioManager
 {
 
     public class AssetPortfolio
     {
-        protected readonly ConsolidatorService? _consolidatorService;
+        
         protected List<IAsset> _portfolio { get; set; } = new List<IAsset>();
 
         public AssetPortfolio() { }
-        public AssetPortfolio(ConsolidatorService consolidatorService)
-        {
-            _consolidatorService = consolidatorService;
-        }
-
+   
         public virtual void Add(Stock s)
         {
             _portfolio.Add(s);
         }
-        public virtual void Add(IAsset s)
-        {
-            if (s is Stock)
-            {
-                _portfolio.Add(s);
-            }
-
-            throw new InvalidOperationException("This PMS version Only Accept stocks in the porfolio cuurency");
-        }
-
+   
         public virtual double Value()
         {
             double v = 0;
@@ -40,30 +25,18 @@ namespace PortfolioManager
             }
             return v;
         }
-
-        /// <summary>
-        /// Clone only Services structure.
-        /// </summary>
-        /// <returns></returns>
-        public virtual AssetPortfolio Clone()
+ 
+        public virtual AssetPortfolio Consolidate()
         {
-            return _consolidatorService == null ? new AssetPortfolio() : new AssetPortfolio(_consolidatorService);
-        }
-        public AssetPortfolio Consolidate()
-        {
-            if (_consolidatorService is null)
-            {
-                throw new Exception($"Missing {nameof(ConsolidatorService)}");
-            }
+      
+            AssetPortfolio consolidated =new();
 
-            AssetPortfolio consolidated = this.Clone();
-
-            var assets = _consolidatorService.Consolidate(_portfolio.ToList());
+            var assets = StockConsolidator.ConsolidateStocks(_portfolio.OfType<Stock>());
 
             //Populate the portfolio with consolidated asset values
             foreach (var asset in assets ?? Enumerable.Empty<IAsset>())
-            {
-                consolidated.Add(asset);
+            {                
+                consolidated.Add((Stock)asset);
             }
 
             return consolidated;

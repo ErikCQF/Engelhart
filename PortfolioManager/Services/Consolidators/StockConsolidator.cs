@@ -12,7 +12,7 @@ namespace PortfolioManager.Services.Consolidators
             return ConsolidateStocks(stocks);
         }
 
-        private IEnumerable<IAsset> ConsolidateStocks(IEnumerable<Stock> stocks)
+        public static IEnumerable<IAsset> ConsolidateStocks(IEnumerable<Stock> stocks)
         {
             var assets = stocks.ToList();
             if (assets.Count() == 0) return new List<IAsset>();

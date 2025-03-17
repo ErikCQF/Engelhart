@@ -8,11 +8,13 @@ namespace PortfolioManager
     {
         public string Currency { get; private set; }
         protected readonly IExchangeRates _exchangeRates;
+        protected readonly ConsolidatorService? _consolidatorService;
 
-        public MultAssetPortfolio(string currency, IExchangeRates exchangeRates, ConsolidatorService consolidatorService) : base(consolidatorService)
+        public MultAssetPortfolio(string currency, IExchangeRates exchangeRates, ConsolidatorService consolidatorService) 
         {
             Currency = currency;
             _exchangeRates = exchangeRates;
+            _consolidatorService = consolidatorService;
         }
 
         public override void Add(Stock s)
@@ -24,7 +26,7 @@ namespace PortfolioManager
         {
             Currency = ccy;
         }
-        public override void Add(IAsset s)
+        public virtual void Add(IAsset s)
         {
             _portfolio.Add(s);
         }
@@ -46,11 +48,32 @@ namespace PortfolioManager
             return v;
         }
 
+        
+        public override AssetPortfolio Consolidate()
+        {
+            if (_consolidatorService is null)
+            {
+                throw new Exception($"Missing {nameof(ConsolidatorService)}");
+            }
+
+            MultAssetPortfolio consolidated = new(Currency,_exchangeRates,_consolidatorService);
+
+            var assets = _consolidatorService.Consolidate(_portfolio.ToList());
+
+            //Populate the portfolio with consolidated asset values
+            foreach (var asset in assets ?? Enumerable.Empty<IAsset>())
+            {
+                consolidated.Add(asset);
+            }
+
+            return consolidated;
+        }
+
         /// <summary>
         /// Clone only Services structure.
         /// </summary>
         /// <returns></returns>
-        public override AssetPortfolio Clone()
+        public virtual AssetPortfolio Clone()
         {
             if (_consolidatorService is null) throw new ArgumentNullException("consolidators service not found");
 
