@@ -23,9 +23,6 @@ The  `Program.cs` in the former main application that is used for test, can been
   dotnet test
   ```
 
-## Contribution & Support
-If you have any questions or need help, feel free to reach out or open an issue in the repository. Happy coding! 🚀
-
 ## Author
 **Erik Pimentel de Morais**  
 ✉️ Email: [erik.pimentel.morais@gmail.com](mailto:erik.pimentel.morais@gmail.com)  
