@@ -13,7 +13,7 @@ The  `Program.cs` in the former main application that is used for test, can been
 
 ### Unit Testing
 - A new unit test project has been added for development and validation purposes.
-- Ensure you run the tests before making any changes to verify that everything works as expected.
+
 
 ### Running Tests
 - Open the **Test Explorer** in Visual Studio
