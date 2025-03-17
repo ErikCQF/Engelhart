@@ -157,15 +157,17 @@ namespace PortfolioManager.Tests
 
             // Act
             var consolidated = (consolidator.Consolidate(portfolio).Select(a => a as Stock)).ToList();
-            Stock? abcAsset = consolidated.Where(a => a.Symbol == ABC).FirstOrDefault();
-            Stock? dowAsset = consolidated.Where(a => a.Symbol == DOW).FirstOrDefault();
+            Stock? abcAsset = consolidated?.Where(a => a?.Symbol == ABC).FirstOrDefault();
+            Stock? dowAsset = consolidated?.Where(a => a?.Symbol == DOW).FirstOrDefault();
 
             Assert.True(abcAsset is not null);
             Assert.True(dowAsset is not null);
+            Assert.True(consolidated is not null);
+
 
             // Assert
-            Assert.True(AreEqual(consolidated.Where(a => a.Symbol == ABC).Count(), 1)); 
-            Assert.True(AreEqual(consolidated.Where(a => a.Symbol == DOW).Count(), 1));
+            Assert.True(AreEqual(consolidated.Where(a => a?.Symbol == ABC).Count(), 1)); 
+            Assert.True(AreEqual(consolidated.Where(a => a?.Symbol == DOW).Count(), 1));
 
             Assert.True(AreEqual(abcAsset.Shares, 300));
             Assert.True(AreEqual(abcAsset.Price, 3));
@@ -193,16 +195,16 @@ namespace PortfolioManager.Tests
 
             // Act
             var consolidated = (consolidator.Consolidate(portfolio).Select(a => a as CurrencyAsset)).ToList();
-            CurrencyAsset? usdAsset = consolidated.Where(a => a.Currency == USD).FirstOrDefault();
-            CurrencyAsset? eurAsset = consolidated.Where(a => a.Currency == EUR).FirstOrDefault();
+            CurrencyAsset? usdAsset = consolidated?.Where(a => a?.Currency == USD).FirstOrDefault();
+            CurrencyAsset? eurAsset = consolidated?.Where(a => a?.Currency == EUR).FirstOrDefault();
 
             // Assert
-
+            Assert.True(consolidated is not null);
             Assert.True(usdAsset is not null);
             Assert.True(eurAsset is not null);
 
-            Assert.True(AreEqual(consolidated.Where(a => a.Currency == USD).Count(), 1));
-            Assert.True(AreEqual(consolidated.Where(a => a.Currency == EUR).Count(), 1));
+            Assert.True(AreEqual(consolidated.Where(a => a?.Currency == USD).Count(), 1));
+            Assert.True(AreEqual(consolidated.Where(a => a?.Currency == EUR).Count(), 1));
 
             Assert.True(AreEqual(usdAsset.Amount, 50));
             Assert.True(AreEqual(eurAsset.Amount, 400));
