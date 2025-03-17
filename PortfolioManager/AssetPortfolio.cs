@@ -9,16 +9,13 @@ namespace PortfolioManager
     public class AssetPortfolio
     {
         protected readonly ConsolidatorService? _consolidatorService;
+        protected List<IAsset> _portfolio { get; set; } = new List<IAsset>();
 
-        public AssetPortfolio()
-        {
-
-        }
+        public AssetPortfolio() { }
         public AssetPortfolio(ConsolidatorService consolidatorService)
         {
             _consolidatorService = consolidatorService;
         }
-        protected List<IAsset> _portfolio { get; set; } = new List<IAsset>();
 
         public virtual void Add(Stock s)
         {

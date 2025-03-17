@@ -5,15 +5,16 @@ namespace PortfolioManager.Services.FxRates
     public class ExchangeDirectQuotation : IExchangeRates
     {
         protected readonly ConcurrentDictionary<string, double> _usdRates = new();
-
         public void AddOrUpdateRate(string currency, double rate)
         {
             if (string.IsNullOrWhiteSpace(currency))
-                throw new ArgumentException("Currency cannot be null or empty.", nameof(currency));
+                throw new ArgumentException("Currency cannot be null or empty.");
+
+            if (rate==0.0)
+                throw new ArgumentException("FxRate cannot be zero.");
 
             _usdRates.AddOrUpdate(currency, rate, (key, oldValue) => rate);
         }
-
 
         public double GetRate(string fromCurrency, string toCurrency)
         {

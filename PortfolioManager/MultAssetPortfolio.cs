@@ -6,7 +6,7 @@ namespace PortfolioManager
 {
     public class MultAssetPortfolio : AssetPortfolio
     {
-        protected string Currency { get; private set; }
+        public string Currency { get; private set; }
         protected readonly IExchangeRates _exchangeRates;
 
         public MultAssetPortfolio(string currency, IExchangeRates exchangeRates, ConsolidatorService consolidatorService) : base(consolidatorService)
